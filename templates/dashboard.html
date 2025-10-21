@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, {{ username }}!</h1>
+    <a href="{{ url_for('logout') }}">Logout</a>
+
+    <!-- This block will display any success or error messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="flash-{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <hr>
+
+    <h2>Add New Password</h2>
+    <form action="{{ url_for('add_password') }}" method="POST">
+        <label for="service_name">Service Name:</label>
+        <input type="text" id="service_name" name="service_name" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <button type="submit">Save Password</button>
+    </form>
+
+    <hr>
+
+    <h2>Your Saved Passwords</h2>
+    <table border="1" style="width:100%; border-collapse: collapse;">
+        <thead>
+            <tr style="text-align: left;">
+                <th style="padding: 8px;">Service</th>
+                <th style="padding: 8px;">Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- This is the loop that displays the passwords. -->
+            <!-- The 'else' block will only run if the 'passwords' list is empty. -->
+            {% for p in passwords %}
+            <tr>
+                <td style="padding: 8px;">{{ p.service_name }}</td>
+                <td style="padding: 8px;">{{ p.password }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2" style="padding: 8px; text-align: center;">You have no saved passwords yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+

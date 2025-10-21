@@ -33,10 +33,10 @@ def derive_key(password: str, salt:bytes) -> bytes:
     return kdf.derive(password.encode())
 
 def encrypt_data(data: bytes, key: bytes) -> bytes:
-    nonce = os.random(12)
+    nonce = os.urandom(12)
     aesgcm = AESGCM(key)
 
-    encrypted_data = aesgcm.encrypt(nonce + encrypted_data)
+    encrypted_data = aesgcm.encrypt(nonce, data, None)
 
     return base64.b64encode(nonce + encrypted_data)
 
