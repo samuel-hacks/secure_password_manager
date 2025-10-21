@@ -32,7 +32,7 @@ def derive_key(password: str, salt:bytes) -> bytes:
 
     return kdf.derive(password.encode())
 
-def encrypt_data(data: byte, key: bytes) -> bytes:
+def encrypt_data(data: bytes, key: bytes) -> bytes:
     nonce = os.random(12)
     aesgcm = AESGCM(key)
 
